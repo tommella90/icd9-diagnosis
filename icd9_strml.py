@@ -6,11 +6,13 @@ import time
 import scipy
 from scipy.spatial import distance
 import spacy
+import en_ner_bionlp13cg_md
 
 ## UPLOAD AND CLEAN DATA
 
 print("Uploading the model")
-sci_bio = spacy.load("en_ner_bionlp13cg_md")
+sci_bio = en_ner_bionlp13cg_md.load()
+
 print("Model uploaded successfully")
 data = pd.read_csv("codes_embedded.csv.gz", compression='gzip')
 
