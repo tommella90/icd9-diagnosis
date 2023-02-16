@@ -8,10 +8,12 @@ from scipy.spatial import distance
 import spacy
 
 ## UPLOAD AND CLEAN DATA
+
 print("Uploading the model")
 sci_bio = spacy.load("en_ner_bionlp13cg_md")
 print("Model uploaded successfully")
-data = pd.read_pickle("codes_embedded.pkl")
+data = pd.read_csv("codes_embedded.csv.gz", compression='gzip')
+
 
 def string_to_array(string):
     char_to_remove = ['[', ']', '\n']
@@ -48,7 +50,6 @@ def query_input(input, model, codes_vectorized):
 def query_input_pandas(input, model_vectors, n_matches = 10):
     ''' Function to translate the input call (medical text) into a list of tuple
     showing the 5 closest illnesses-related codes and their vectorial distances'''
-    start_time = round(time.time(), 2)
     sorted_codes = query_input(input, sci_bio, model_vectors)
 
     if n_matches == -1:
@@ -71,13 +72,15 @@ st.set_page_config(layout="wide",
                    page_title="ICD9 - DIAGNOSIS",
                    page_icon=":🧊:")
 
+
 with st.container():
     st.title("ICD9 DIAGNOSIS APP")
     st.subheader("Get the ICD9 code for your diagnosis")
     text = st.text_input('Write a diagnosis')
-    results = query_input_pandas(text, data['sci_bio_lower'], 5)
-    #d = {"diagnosis": text, "RESULTS": results}
-    st.write("Diagnosis", text)
+
+results = query_input_pandas(text, data['sci_bio_lower'], 5)
+with st.container():
+    st.write(text)
     st.write(results)
 
 
