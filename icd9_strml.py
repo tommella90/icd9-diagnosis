@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import time
-#import scispacy
+import scispacy
 import scipy
 from scipy.spatial import distance
 import spacy
