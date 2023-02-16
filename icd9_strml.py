@@ -6,6 +6,8 @@ import time
 import scipy
 from scipy.spatial import distance
 import spacy
+from streamlit_tags import st_tags
+from streamlit_tags import st_tags_sidebar
 
 ## UPLOAD AND CLEAN DATA
 
@@ -72,15 +74,20 @@ st.set_page_config(layout="wide",
                    page_title="ICD9 - DIAGNOSIS",
                    page_icon=":🧊:")
 
+diagnosis = st_tags_sidebar(
+    label='# write a diagnosis:',
+    text='Press enter',
+    value=[],
+)
 
 with st.container():
     st.title("ICD9 DIAGNOSIS APP")
     st.subheader("Get the ICD9 code for your diagnosis")
-    text = st.text_input('Write a diagnosis')
+    #text = st.text_input('Write a diagnosis')
 
-results = query_input_pandas(text, data['sci_bio_lower'], 5)
+results = query_input_pandas(diagnosis, data['sci_bio_lower'], 5)
 with st.container():
-    st.write(text)
+    st.write(diagnosis)
     st.write(results)
 
 
