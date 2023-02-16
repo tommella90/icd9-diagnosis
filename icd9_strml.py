@@ -6,8 +6,6 @@ import time
 import scipy
 from scipy.spatial import distance
 import spacy
-from streamlit_tags import st_tags
-from streamlit_tags import st_tags_sidebar
 
 ## UPLOAD AND CLEAN DATA
 
@@ -57,7 +55,7 @@ def query_input_pandas(input, model_vectors, n_matches = 10):
     if n_matches == -1:
         n_matches = len(sorted_codes.index)
 
-    top_matches = sorted_codes.iloc[0: n_matches, [0,1]]
+    top_matches = sorted_codes.iloc[1: n_matches, [0,1]]
     top_matches = top_matches.set_index('code')
     codes = list(top_matches.index)
     descriptions = list(top_matches.description)
@@ -69,26 +67,21 @@ def query_input_pandas(input, model_vectors, n_matches = 10):
     return top_matches
 
 
+#%%
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded",
                    page_title="ICD9 - DIAGNOSIS",
                    page_icon=":🧊:")
 
-diagnosis = st_tags_sidebar(
-    label='# write a diagnosis:',
-    text='Press enter',
-    value=[],
-)
 
 with st.container():
     st.title("ICD9 DIAGNOSIS APP")
     st.subheader("Get the ICD9 code for your diagnosis")
-    #text = st.text_input('Write a diagnosis')
-
-results = query_input_pandas(diagnosis, data['sci_bio_lower'], 5)
-with st.container():
-    st.write(diagnosis)
-    st.write(results)
+    diagnosis = st.text_input('Write the diagnosis here:')
+    table = query_input_pandas(str(diagnosis), data['sci_bio_lower'], 5)
+    table.index.name = 'ICD CODE'
+    #st.write(table)
+    st.table(table)
 
 
 #%%

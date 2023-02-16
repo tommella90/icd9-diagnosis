@@ -24,33 +24,15 @@ for text in data['description']:
     list_nlp_eng_bio_lower.append(vec_bio)
 
 data['sci_bio_lower'] = list_nlp_eng_bio_lower
-data = data.iloc[0:100, :]
 
-data.to_pickle('codes_embedded.pkl')
+#data.to_pickle('codes_embedded.pkl')
 #data.to_csv('dati/codes_embedded.txt', sep=' ')
-
-
-#%%
-data = pd.read_pickle("codes_embedded.pkl")
-data = data.iloc[0:100, :]
-data.to_pickle('codes_embedded.pkl')
+#data = pd.read_pickle("../codes_embedded.pkl")
+#data = data.iloc[0:100, :]
+#data.to_pickle('codes_embedded.pkl')
 
 data.to_csv("codes_embedded.csv.gz",
           index=False,
           compression="gzip")
 
 print('done')
-
-#%%
-d = pd.read_csv('codes_embedded.csv.gz', compression='gzip')
-x = d.iloc[0, -1]
-x = x.replace('\n', '')
-x = x.replace('  ', ' ')
-x = x.split(' ')
-while '' in x:
-    x.remove('')
-x = np.array(x)
-x
-#%%
-
-#%%
